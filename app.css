@@ -60,6 +60,8 @@ button:hover {
   width: 400px;
   border-top: none;
   display: none;
+  height: 250px;
+  overflow: scroll;
 }
 
 .countries-list {

@@ -224,16 +224,53 @@ var countries = [
 ];
 
 const searchInputElement = document.getElementById("search-input");
-const dropdownElement = document.querySelector(".dropdown");
 
 searchInputElement.addEventListener("keyup", () => {
-  const searchInputValue = document.getElementById("search-input").value;
-});
+  // checking for existing dropdown element if exists delete it
+  const dropdownElement = document.querySelector(".dropdown");
+  if (dropdownElement) {
+    dropdownElement.remove();
+  }
 
-searchInputElement.addEventListener("focusin", () => {
-  dropdownElement.style.display = "block";
+  // creating new dropdown element
+  const newDropdownEl = document.createElement("div");
+  newDropdownEl.className = "dropdown";
+
+  // creating new unordered list element
+  const countryListEl = document.createElement("ul");
+  countryListEl.className = "countries-list";
+
+  const searchInputValue = document.getElementById("search-input").value;
+
+  // filtering the countries based on user input
+  const filteredValues = countries.filter(
+    (country) =>
+      country.substr(0, searchInputValue.length).toLowerCase() ===
+      searchInputValue.toLowerCase()
+  );
+
+  // highlighting the user input in the dropdown list
+  for (const country of filteredValues) {
+    const countryListValue = document.createElement("li");
+    countryListValue.className = "countries-list--item";
+    countryListValue.innerHTML = `
+        <b>${country.substring(0, searchInputValue.length)}</b>${country.substring(
+      searchInputValue.length
+    )}
+    `;
+    countryListEl.append(countryListValue);
+  }
+
+  // appending the dropdown element in form element
+  newDropdownEl.append(countryListEl);
+  searchInputElement.after(newDropdownEl);
+
+  newDropdownEl.style.display = "block";
 });
 
 searchInputElement.addEventListener("focusout", () => {
-  dropdownElement.style.display = "none";
+  const dropdownElement = document.querySelector(".dropdown");
+  if (dropdownElement) {
+    dropdownElement.style.display = "none";
+  }
 });
