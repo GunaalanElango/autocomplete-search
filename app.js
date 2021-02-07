@@ -223,6 +223,10 @@ var countries = [
   "Zimbabwe",
 ];
 
+const searchInputElement = document.getElementById("search-input");
+const dropdownElement = document.querySelector(".dropdown");
+const formElement = document.querySelector("form");
+
 class DOMHelper {
   static createRootElement(tag, classes) {
     const rootElement = document.createElement(tag);
@@ -231,53 +235,53 @@ class DOMHelper {
   }
 }
 
-const searchInputElement = document.getElementById("search-input");
+dropdownElement.addEventListener("click", (event) => {
+  event.stopPropagation();
+  searchInputElement.value = event.target.textContent.trim();
+});
 
-searchInputElement.addEventListener("keyup", () => {
-  // checking for existing dropdown element if exists delete it
-  const dropdownElement = document.querySelector(".dropdown");
-  if (dropdownElement) {
-    dropdownElement.remove();
-  }
+searchInputElement.addEventListener("click", (event) => {
+  event.stopPropagation();
+});
 
-  // creating new dropdown element
-  const newDropdownEl = document.createElement("div");
-  newDropdownEl.className = "dropdown";
-
-  // creating new unordered list element
-  const countryListEl = document.createElement("ul");
-  countryListEl.className = "countries-list";
-
+searchInputElement.addEventListener("keyup", (event) => {
+  const unorderListElement = dropdownElement.querySelector("ul");
   const searchInputValue = document.getElementById("search-input").value;
 
+  if (unorderListElement) {
+    unorderListElement.remove();
+  }
+
+  const listElement = DOMHelper.createRootElement("ul", "countries-list");
+  console.log(searchInputValue.length);
   // filtering the countries based on user input
-  const filteredValues = countries.filter(
-    (country) =>
-      country.substr(0, searchInputValue.length).toLowerCase() ===
-      searchInputValue.toLowerCase()
-  );
+  let filteredValues = [];
+  if (searchInputValue.length > 0) {
+    filteredValues = countries.filter(
+      (country) =>
+        country.substr(0, searchInputValue.length).toLowerCase() ===
+        searchInputValue.toLowerCase()
+    );
+  } else {
+    filteredValues = [];
+  }
 
   // highlighting the user input in the dropdown list
   for (const country of filteredValues) {
-    const countryListValue = document.createElement("li");
-    countryListValue.className = "countries-list--item";
-    countryListValue.innerHTML = `
+    const listEl = DOMHelper.createRootElement("li", "countries-list--item");
+    listEl.innerHTML = `
         <b>${country.substring(0, searchInputValue.length)}</b>${country.substring(
       searchInputValue.length
     )}
     `;
-    countryListEl.append(countryListValue);
+    listElement.append(listEl);
   }
-  newDropdownEl.addEventListener("click", () => console.log("clicked"));
+  dropdownElement.append(listElement);
 
-  // appending the dropdown element in form element
-  newDropdownEl.append(countryListEl);
-  searchInputElement.after(newDropdownEl);
-
-  newDropdownEl.style.display = "block";
+  dropdownElement.style.display = "block";
 });
 
-document.addEventListener("click", () => {
+document.addEventListener("click", (event) => {
   const dropdownElement = document.querySelector(".dropdown");
   if (dropdownElement) {
     dropdownElement.style.display = "none";
