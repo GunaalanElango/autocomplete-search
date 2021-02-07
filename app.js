@@ -223,6 +223,14 @@ var countries = [
   "Zimbabwe",
 ];
 
+class DOMHelper {
+  static createRootElement(tag, classes) {
+    const rootElement = document.createElement(tag);
+    rootElement.className = classes;
+    return rootElement;
+  }
+}
+
 const searchInputElement = document.getElementById("search-input");
 
 searchInputElement.addEventListener("keyup", () => {
@@ -260,7 +268,7 @@ searchInputElement.addEventListener("keyup", () => {
     `;
     countryListEl.append(countryListValue);
   }
-  newDropdownEl.addEventListener("click", () => console.log("clicked"))
+  newDropdownEl.addEventListener("click", () => console.log("clicked"));
 
   // appending the dropdown element in form element
   newDropdownEl.append(countryListEl);
@@ -269,7 +277,7 @@ searchInputElement.addEventListener("keyup", () => {
   newDropdownEl.style.display = "block";
 });
 
-searchInputElement.addEventListener("focusout", () => {
+document.addEventListener("click", () => {
   const dropdownElement = document.querySelector(".dropdown");
   if (dropdownElement) {
     dropdownElement.style.display = "none";
