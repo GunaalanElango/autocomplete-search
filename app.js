@@ -253,7 +253,7 @@ searchInputElement.addEventListener("keyup", (event) => {
   }
 
   const listElement = DOMHelper.createRootElement("ul", "countries-list");
-  console.log(searchInputValue.length);
+
   // filtering the countries based on user input
   let filteredValues = [];
   if (searchInputValue.length > 0) {
