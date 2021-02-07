@@ -260,6 +260,7 @@ searchInputElement.addEventListener("keyup", () => {
     `;
     countryListEl.append(countryListValue);
   }
+  newDropdownEl.addEventListener("click", () => console.log("clicked"))
 
   // appending the dropdown element in form element
   newDropdownEl.append(countryListEl);

@@ -61,7 +61,7 @@ button:hover {
   border-top: none;
   display: none;
   height: 250px;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .countries-list {
@@ -74,6 +74,11 @@ button:hover {
   padding: 2px 0 0 5px;
   font-size: 1.2rem;
   /* border-bottom: 1px solid black; */
+}
+
+.countries-list--item:hover {
+  background: #e9e9e978;
+  cursor: pointer;
 }
 
 /* .countries-list--item:last-child {
